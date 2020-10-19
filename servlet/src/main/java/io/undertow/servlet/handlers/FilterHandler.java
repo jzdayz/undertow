@@ -124,7 +124,9 @@ public class FilterHandler implements HttpHandler {
                 }
                 servletRequestContext.setServletRequest(request);
                 servletRequestContext.setServletResponse(response);
+                // 从0开始一直调用到最后
                 int index = location++;
+                // 所有的filter调用完成，之后就调用HttpHandler
                 if (index >= filters.size()) {
                     next.handleRequest(exchange);
                 } else {

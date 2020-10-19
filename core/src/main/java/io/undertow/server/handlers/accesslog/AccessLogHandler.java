@@ -90,7 +90,7 @@ import io.undertow.server.handlers.builder.HandlerBuilder;
  * <li><code>%{r,xxx}</code> xxx is an attribute in the ServletRequest
  * <li><code>%{s,xxx}</code> xxx is an attribute in the HttpSession
  * </ul>
- *
+ * 访问日志
  * @author Stuart Douglas
  */
 public class AccessLogHandler implements HttpHandler {

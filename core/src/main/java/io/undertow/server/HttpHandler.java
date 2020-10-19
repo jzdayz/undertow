@@ -21,7 +21,7 @@ package io.undertow.server;
 /**
  * A handler for an HTTP request. The request handler must eventually either call another handler or end the exchange.
  *
- *
+ * 处理http请求的处理器
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface HttpHandler {
