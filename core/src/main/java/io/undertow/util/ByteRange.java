@@ -128,6 +128,7 @@ public class ByteRange {
         if(ranges.isEmpty()) {
             return null;
         }
+        // 资源开始偏移和结束偏移
         long start = getStart(0);
         long end = getEnd(0);
         long rangeLength;

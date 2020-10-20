@@ -79,6 +79,7 @@ public class ByteRangeHandler implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         //range requests are only support for GET requests as per the RFC
+        // 只能通过byte-range只能通过get方法
         if(!Methods.GET.equals(exchange.getRequestMethod()) && !Methods.HEAD.equals(exchange.getRequestMethod())) {
             next.handleRequest(exchange);
             return;
@@ -86,6 +87,7 @@ public class ByteRangeHandler implements HttpHandler {
         if (sendAcceptRanges) {
             exchange.addResponseCommitListener(ACCEPT_RANGE_LISTENER);
         }
+        // 解析range头
         final ByteRange range = ByteRange.parse(exchange.getRequestHeaders().getFirst(Headers.RANGE));
         if (range != null && range.getRanges() == 1) {
             exchange.addResponseWrapper(new ConduitWrapper<StreamSinkConduit>() {
@@ -98,9 +100,10 @@ public class ByteRangeHandler implements HttpHandler {
                     if (length == null) {
                         return factory.create();
                     }
+                    // 返回的内容长度
                     long responseLength = Long.parseLong(length);
                     String lastModified = exchange.getResponseHeaders().getFirst(Headers.LAST_MODIFIED);
-                    ByteRange.RangeResponseResult rangeResponse = range.getResponseResult(responseLength, exchange.getRequestHeaders().getFirst(Headers.IF_RANGE), lastModified == null ? null : DateUtils.parseDate(lastModified), exchange.getResponseHeaders().getFirst(Headers.ETAG));
+                    ByteRange.RangeResponseResult rangeResponse = range.getResponseResult(responseLength, /*if-range标识资源是否发生变化*/exchange.getRequestHeaders().getFirst(Headers.IF_RANGE), lastModified == null ? null : DateUtils.parseDate(lastModified), exchange.getResponseHeaders().getFirst(Headers.ETAG));
                     if(rangeResponse != null){
                         long start = rangeResponse.getStart();
                         long end = rangeResponse.getEnd();
