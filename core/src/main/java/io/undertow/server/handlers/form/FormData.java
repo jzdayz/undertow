@@ -243,9 +243,11 @@ public final class FormData implements Iterable<String> {
         }
 
         public InputStream getInputStream() throws IOException {
+            // 如果在缓存文件中，则读取缓存文件的数据
             if (file != null) {
                 return new BufferedInputStream(Files.newInputStream(file));
             } else {
+                // 否则读取内存的数据
                 return new ByteArrayInputStream(content);
             }
         }
